@@ -11,7 +11,6 @@ storage/
 node_modules/**
 package-lock.json
 vendor/doctrine/common/lib/vendor/
-vendor/ezyang/htmlpurifier/plugins/phorum/htmlpurifier/
 vendor/guzzlehttp/guzzle/build/
 vendor/guzzlehttp/guzzle/docs/
 vendor/guzzlehttp/guzzle/tests/
