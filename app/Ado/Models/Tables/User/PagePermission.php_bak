@@ -1,0 +1,11 @@
+<?php namespace App\Ado\Models\Tables\User;
+
+use Illuminate\Database\Eloquent\Model;
+
+class PagePermission extends Model {
+
+	//
+    protected $table="page_permission";
+    public $timestamps=false;
+
+}

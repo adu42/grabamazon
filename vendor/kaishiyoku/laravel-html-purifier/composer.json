@@ -1,0 +1,22 @@
+{
+    "name": "kaishiyoku/laravel-html-purifier",
+    "description": "A HTML filter using htmlpurifier with additional HTML5 rules.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andreas Wiedel",
+            "email": "dev@andreas-wiedel.de"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "illuminate/support": "5.*",
+        "ezyang/htmlpurifier": "4.7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kaishiyoku\\": "src/Kaishiyoku"
+        }
+    }
+}

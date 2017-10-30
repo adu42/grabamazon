@@ -1,0 +1,7 @@
+node_modules
+/node_modules/**
+*.sh
+tools
+tools/**
+test
+test/**

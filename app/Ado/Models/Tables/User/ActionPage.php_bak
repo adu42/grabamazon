@@ -1,0 +1,10 @@
+<?php namespace App\Ado\Models\Tables\User;
+
+use Illuminate\Database\Eloquent\Model;
+
+class ActionPage extends Model {
+
+	//
+    protected $table = 'action_page';
+    public $timestamps=false;
+}

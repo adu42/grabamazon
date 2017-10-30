@@ -1,0 +1,43 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+class CharifyCountriesTable extends Migration {
+
+	/**
+	 * Run the migrations.
+	 *
+	 * @return  void
+	 */
+	public function up()
+	{
+        /*    Schema::table(\Config::get('countries.table_name'), function(Blueprint $table)
+            {
+                $table->char('country_code', 3)->default('')->change();
+                $table->char('iso_3166_2', 2)->default('')->change();
+                $table->char('iso_3166_3', 3)->default('')->change();
+                $table->char('region_code', 3)->default('')->change();
+                $table->char('sub_region_code', 3)->default('')->change();
+            });
+        */
+        }
+	
+
+	/**
+	 * Reverse the migrations.
+	 *
+	 * @return  void
+	 */
+	public function down()
+	{
+            Schema::table(\Config::get('countries.table_name'), function($table)
+            {
+                $table->string('country_code', 3)->default('')->change();
+                $table->string('iso_3166_2', 2)->default('')->change();
+                $table->string('iso_3166_3', 3)->default('')->change();
+                $table->string('region_code', 3)->default('')->change();
+                $table->string('sub_region_code', 3)->default('')->change();
+            });
+	}
+
+}

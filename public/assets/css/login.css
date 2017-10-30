@@ -1,0 +1,27 @@
+.socialite-icon{background-image: url("../images/sp_social_media_icons.1442169837.png");background-repeat: no-repeat;}
+.socialite-icon:hover{ background-position-y: -27px }
+.socialite-icon.facebook,.socialite-icon.google,.socialite-icon.linkedin,.socialite-icon.twitter,.socialite-icon.github,.socialite-icon.bitbucket{
+    width: 26px;
+    height: 27px;
+    text-indent: -99999px;
+    overflow: hidden;
+}
+.socialite-icon.facebook{
+    -ms-background-position-x: -52px;
+    background-position-x: -52px;
+}
+.socialite-icon.google{
+    -ms-background-position-x: -104px;
+    background-position-x: -104px;
+    background-position: -104px 0px;
+}
+.socialite-icon.linkedin{
+    -ms-background-position-x: -78px;
+    background-position-x: -78px;
+}
+.socialite-icon.twitter{
+    -ms-background-position-x: -26px;
+    background-position-x: -26px;
+}
+.socialite-icon.github{}
+.socialite-icon.bitbucket{}

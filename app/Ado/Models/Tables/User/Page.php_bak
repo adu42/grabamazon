@@ -1,0 +1,19 @@
+<?php namespace App\Ado\Models\Tables\User;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Page extends Model {
+
+	//
+    protected $table = 'pages';
+
+    protected $fillable = ['path', 'url_key', 'title', 'enabled', 'sort_order','parent_page_id','level','icon'];
+
+    /**
+     * 页面上有多个方法操作点
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function actionPages(){
+        return $this->belongsToMany('App\Ado\Models\Tables\User\ActionPage');
+    }
+}
