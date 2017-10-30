@@ -1058,7 +1058,8 @@ class AmazonGrab
         //$products = $this->amazonOkProduct->Crawler()->Rand()->take(2)->get();
         set_time_limit(3000);
         $this->amazonOkProduct->update(['is_active'=>0]);
-        $products = $this->amazonOkProduct->Rand()->take(2)->get();
+       // $products = $this->amazonOkProduct->Rand()->take(2)->get();
+        $products = $this->amazonOkProduct->whereIn('id',[68,69])->get();
         Log::info('--s--' . count($products));
         foreach ($products as $product) {
             Log::info('--s--' . $product->url);
@@ -1169,18 +1170,20 @@ class AmazonGrab
 
     /**
      * 商品数据写进csv
-     * @param $_products
+     * @param $_product
      * //成功抓到图片的数据写进csv
      *  可变方式
      */
     protected function saveCsv($product)
     {
-        $_products = $product->toMagento();
-        if(empty($_products))return;
+        $_product = $product->toMagento();
+      //  dd($_product);
+        if(empty($_product))return;
         $file = storage_path('app/csv/products.csv');
         $lines = [];
         $exist = false;
         $dataHead = $line = [];
+        $csvData = [];
 
         if (file_exists($file)) {
             //检查是否存在文件存在标题行
@@ -1191,16 +1194,21 @@ class AmazonGrab
                 while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
                     $num = count($data);
                     if (empty($data)) continue;
+                    $csvDataRow = [];
                     for ($c = 0; $c < $num; $c++) {
                         if ($i === 1) {
-                            if (empty($data[$c])) break;
-                            $dataHead[] = $data[$c];
+                           // if (empty($data[$c]))break;
+                            $dataHead[$c] = $data[$c];
                             if ($data[$c] == 'asin') $col = $c;
                             if ($data[$c] == 'name') $col_name = $c;
+                        }else{
+                            if(isset($dataHead[$c]))
+                            $csvDataRow[$dataHead[$c]]=$data[$c];
                         }
                     }
+                    if(!empty($csvDataRow))$csvData[]=$csvDataRow;
                     if ($col > 0) {
-                        if ((isset($data[$col]) && $data[$col] == $_products['asin']) || (isset($data[$col_name]) && $data[$col_name] == $_products['name'])) { //如果存在，就不写了；
+                        if ((isset($data[$col]) && $data[$col] == $_product['asin']) || (isset($data[$col_name]) && $data[$col_name] == $_product['name'])) { //如果存在，就不写了；
                             $exist = true;
                             break;
                         }
@@ -1213,20 +1221,28 @@ class AmazonGrab
 
         if ($exist) return;
         if (empty($dataHead)) { //如果不存在标题行，就加文件标题行
-            $dataHead = array_keys($_products);
-            $lines[] = $dataHead;// implode(',',$dataHead);
+            $dataHead = array_keys($_product);
         } else {
-            if (in_array('asin', $dataHead))
-                $_products = array_merge(array_flip($dataHead), $_products); //重新排序
+            if (in_array('name', $dataHead)){
+                $dataHead =  array_merge($dataHead,array_diff(array_keys($_product),$dataHead));
+                $_product = array_merge(array_flip($dataHead), $_product); //重新排序
+            }
         }
+        $lines[] = $dataHead;
 
+        //原始的csv数据
+        array_unshift($csvData,$_product);
+        foreach ($csvData as $key=>$product){
+            if(!empty($product)){
+                $line=[];
+                foreach ($product as $key => $value) {
+                    $line[] = "" . (is_array($value) ? implode(';', array_flatten($value)) : $value);
+                }
+                if(!empty($line))$lines[$product['sku']] = $line; //sku唯一
+            }
+        }
         //排序过的数据整理成字符串
-        foreach ($_products as $key => $product) {
-            $line[] = "" . (is_array($product) ? implode(';', array_flatten($product)) : $product);
-        }
-
-        $lines[] = $line;
-        $file = fopen($file, 'a');
+        $file = fopen($file, 'w');
         foreach ($lines as $row) {
             fputcsv($file, $row);
         }

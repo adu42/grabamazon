@@ -63,7 +63,7 @@ class AmazonOkProduct extends Model
     }
 
     public function images(){
-        return $this->hasMany('App\Models\Amazons\AmazonOkProductImage','id','product_id');
+        return $this->hasMany('App\Models\Amazons\AmazonOkProductImage','product_id','id');
     }
 
     public function options(){
@@ -72,13 +72,14 @@ class AmazonOkProduct extends Model
 
     public function toMagento(){
         $images = $this->images();
-        $first = $images->first();
+        $images = $images->pluck('image')->all();
+        $first = isset($images[0])?$images[0]:'';
         if(!$first)return [];
-        return [
-            'image'=> $first->image,
-            'gallimg'=> implode(';',$images->pluck('image')->all()),
-            'small_image'=>$first->image,
-            'thumbnail'=>$first->image,
+        $data = [
+            'image'=> $first,
+            'gallimg'=> implode(';',$images),
+            'small_image'=>$first,
+            'thumbnail'=>$first,
             'typecsvname'=> $this->getAttribute('typecsvname'),
             'store'=>'admin',
             'websites'=>'base',
@@ -102,7 +103,7 @@ class AmazonOkProduct extends Model
             'description'=>'',
             'short_description'=>$this->getAttribute('description'),
             'special_from_date'=>'',
-            'news_from_date'=>date('Y-m-d H:i:s'),
+            'news_from_date'=>date('m/d/Y'),
             'news_to_date'=>'',
             'status'=>'Enabled',
             'visibility'=>'Catalog, Search',
@@ -111,6 +112,9 @@ class AmazonOkProduct extends Model
             'is_in_stock'=>'1',
             'store_id'=>'0',
         ];
-    }
+        if(!empty($this->getAttribute('color_format')))$data[$this->getAttribute('color')]=$this->getAttribute('color_format');
+        if(!empty($this->getAttribute('size_format')))$data[$this->getAttribute('size')]=$this->getAttribute('size_format');
 
+        return $data;
+    }
 }
