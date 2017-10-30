@@ -733,7 +733,6 @@ abstract class Field extends Widget
     
     public function setDefaultValue($value){
         $this->old_values[] = $value;
-        $this->value = $value;
         return $this;
     }
 }
