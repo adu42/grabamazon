@@ -96,7 +96,7 @@ class AmazonOkProduct extends Model
             'meta_description'=>'',
          //   'gender'=>'',
             'url_path'=>'',
-            'price'=>$this->getAttribute('price'),
+            'price'=> max(129, (float)$this->getAttribute('price')),
             'special_price'=>'',
             'weight'=>'1000',
             'meta_keyword'=>'',
