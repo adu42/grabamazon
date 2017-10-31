@@ -6,12 +6,14 @@
 .idea/workspace.xml
 .idea/
 .git/
+vendor/
 node_modules/
 storage/app/
+storage/framework/
 storage/framework/cache/
 storage/framework/views/
 storage/framework/sessions/
-storage/framework/logs/
+storage/logs/
 node_modules/**
 package-lock.json
 vendor/doctrine/common/lib/vendor/
